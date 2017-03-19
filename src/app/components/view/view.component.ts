@@ -11,13 +11,33 @@ import { Pet } from './../../models/pet';
 export class ViewComponent {
 
     private pets: Array<Pet>;
+    private pagerPets: Array<Pet>;
     private errorMessage: any;
+
+    public maxSize: number = 5;
+    public bigTotalItems: number;
+    public bigCurrentPage: number = 1;
+    public numPages: number = 0;
+    public itemsPerPage: number = 10;
 
     constructor(private petService: PetService) {
         petService.getPets().subscribe(
-            pets => this.pets = pets,
-            error => this.errorMessage = <any>error
+            pets => {
+                this.pets = pets;
+                this.bigTotalItems = this.pets.length;
+                this.pagerPets = this.pets.slice(0, this.itemsPerPage);
+            },
+            error => {
+                console.log(error);
+                this.errorMessage = <any>error;
+            }
         );
+    }
+
+    public pageChanged(event: any): void {
+        let start = (event.page - 1) * event.itemsPerPage;
+        let end = event.itemsPerPage > -1 ? (start + event.itemsPerPage) : this.pets.length;
+        this.pagerPets = this.pets.slice(start, end);
     }
 
 }

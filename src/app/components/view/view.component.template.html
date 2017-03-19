@@ -1,9 +1,41 @@
 <div class="page-header">
   <h1>Pet inventory</h1>
-  <div *ngFor="let pet of pets">
-    {{pet.name}} <br />
+  <div class="table-responsive" *ngIf="pets?.length">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Category</th>
+          <th>Tags</th>
+          <th>Photo URLS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pet of pagerPets">
+          <td>{{pet?.id}}</td>
+          <td>{{pet?.name}}</td>
+          <td>{{pet?.status}}</td>
+          <td>{{pet?.category?.name}}</td>
+          <td>
+            <span *ngFor="let tag of pet?.tags; let last = last">{{tag?.name}}<span *ngIf="!last">,</span></span>
+          </td>
+          <td>
+            <span *ngFor="let photoUrl of pet?.photoUrls; let last = last">{{photoUrl}}<span *ngIf="!last">,</span></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="col-md-6">
+      <pagination class="pagination-sm" [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize" [boundaryLinks]="true"
+        [rotate]="false" [itemsPerPage]="itemsPerPage" (numPages)="numPages = $event" (pageChanged)="pageChanged($event)"></pagination>
+    </div>
   </div>
-  <div *ngIf="errorMessage">
+  <div *ngIf=" !pets?.length ">
+    No pets found
+  </div>
+  <div *ngIf="errorMessage ">
     <h2>Error</h2>
     <span>{{errorMessage}}</span>
   </div>
