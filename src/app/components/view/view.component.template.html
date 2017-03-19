@@ -1,0 +1,10 @@
+<div class="page-header">
+  <h1>Pet inventory</h1>
+  <div *ngFor="let pet of pets">
+    {{pet.name}} <br />
+  </div>
+  <div *ngIf="errorMessage">
+    <h2>Error</h2>
+    <span>{{errorMessage}}</span>
+  </div>
+</div>
