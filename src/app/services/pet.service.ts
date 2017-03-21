@@ -10,14 +10,19 @@ import { Pet } from './../models/pet';
 @Injectable()
 export class PetService {
 
+    private headers: Headers;
     constructor(private http: Http) {
+        this.headers = new Headers();
+        this.headers.append('Content-Type', 'application/json');
     }
 
     getPets(): Observable<Pet[]> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-
-        return this.http.get(AppSetting.serverUrl, { headers: headers })
+        return this.http.get(AppSetting.endpoint.post, { headers: this.headers })
             .map(res => res.json() as Pet[]);
+    }
+
+    deletePet(deletePetId: number) {
+        this.http.delete(`${AppSetting.endpoint.delete}/${deletePetId}`, { headers: this.headers })
+            .subscribe((ok) => { console.log(ok) });
     }
 }

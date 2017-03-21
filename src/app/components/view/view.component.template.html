@@ -10,6 +10,7 @@
           <th>Category</th>
           <th>Tags</th>
           <th>Photo URLS</th>
+          <th>Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -23,6 +24,9 @@
           </td>
           <td>
             <span *ngFor="let photoUrl of pet?.photoUrls; let last = last">{{photoUrl}}<span *ngIf="!last">,</span></span>
+          </td>
+          <td>
+            <button type="button" class="btn btn-primary" (click)="deletePet(pet)"><span class="glyphicon glyphicon-trash"></span>&nbsp;Delete</button>
           </td>
         </tr>
       </tbody>

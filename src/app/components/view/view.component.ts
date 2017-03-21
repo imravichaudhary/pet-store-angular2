@@ -40,4 +40,13 @@ export class ViewComponent {
         this.pagerPets = this.pets.slice(start, end);
     }
 
+    public deletePet(pet: Pet) {
+        let index = this.pets.indexOf(pet);
+        if (index > -1) {
+            this.petService.deletePet(pet.id);
+            this.pets.splice(index, 1);
+            this.pageChanged({ page: this.bigCurrentPage, itemsPerPage: this.itemsPerPage });
+        }
+        return false;
+    }
 }
